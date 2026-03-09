@@ -111,7 +111,7 @@ export function Leads() {
 
     const { data: leads = [], isLoading } = useQuery({
         queryKey: ['leads'],
-        queryFn: leadsService.getLeads,
+        queryFn: () => leadsService.getLeads(),
     });
 
     const { data: stats } = useQuery({

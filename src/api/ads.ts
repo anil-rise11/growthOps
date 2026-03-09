@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-// ─── Section 13: Meta Ads Manual Campaign Builder ────────────────────────────
+import { apiClient } from './client';// ─── Section 13: Meta Ads Manual Campaign Builder ────────────────────────────
 // Base: /api/sales-marketing-ops/meta/manual
 // This uses a distinct prefix from apiClient (/sales-marketing-ops) and v1ApiClient (/api/v1/...)
 
@@ -236,4 +235,52 @@ export const metaAdsService = {
         const { data } = await metaManualClient.put(`/adset/${adsetId}/budget`, body);
         return data;
     },
+};
+
+// ── Unified Ads Service (v2 Dashboard) ────────────────────────────────────────
+
+export interface MetaCampaign {
+    campaign_id: string;
+    campaign_name: string;
+    status: string;
+    spend: number;
+    impressions: number;
+    clicks: number;
+    conversions: number;
+    roas: number;
+    ctr?: number;
+    cpc?: number;
+}
+
+export interface CreateCampaignRequest {
+    business_context: string;
+    image_path: string;
+    link_url: string;
+    daily_budget: number;
+    countries: string[];
+    age_min: number;
+    age_max: number;
+}
+
+export const adsService = {
+    getAdsStatsV2: async () => {
+        const { data } = await apiClient.get('/ads/stats');
+        return data;
+    },
+    getGA4Snapshot: async (days: number = 7) => {
+        const { data } = await apiClient.get('/ga4/snapshot', { params: { days } });
+        return data;
+    },
+    getClaritySnapshot: async () => {
+        const { data } = await apiClient.get('/clarity/snapshot');
+        return data;
+    },
+    createCampaign: async (body: CreateCampaignRequest) => {
+        const { data } = await apiClient.post('/ads-campaign/create', body);
+        return data;
+    },
+    toggleCampaign: async (body: { campaign_id: string; action: 'pause' | 'activate'; platform: 'meta_ads' | 'google' | 'linkedin' }) => {
+        const { data } = await apiClient.post('/ads-campaign/toggle', body);
+        return data;
+    }
 };

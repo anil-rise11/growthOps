@@ -107,27 +107,25 @@ function CampaignRow({ campaign, maxRevenue }: { campaign: RevenueByCampaign; ma
 
 // ── Main Component ───────────────────────────────────────────────────────────
 export function RevenueDashboard() {
-    const { data: attribution, isLoading: attributionLoading, refetch: refetchAttribution } = useQuery({
-        queryKey: ['revenueAttribution'],
-        queryFn: () => revenueService.getAttribution(),
-        refetchInterval: 60000,
-    });
-
-    const { data: byCampaign, isLoading: campaignLoading } = useQuery({
-        queryKey: ['revenueByCampaign'],
-        queryFn: () => revenueService.getAttributionByCampaign(),
+    const { data: dashboard, isLoading: dashboardLoading, refetch: refetchDashboard } = useQuery({
+        queryKey: ['revenueDashboard'],
+        queryFn: () => revenueService.getDashboard(),
         refetchInterval: 60000,
     });
 
     const { data: byChannel, isLoading: channelLoading } = useQuery({
         queryKey: ['revenueByChannel'],
-        queryFn: () => revenueService.getAttributionByChannel(),
+        queryFn: () => revenueService.getRevenueBySource(),
         refetchInterval: 60000,
     });
 
-    const totalRevenue = attribution?.total_attributed_revenue ?? 0;
-    const campaigns = byCampaign?.campaigns ?? [];
-    const channels = byChannel?.channels ?? [];
+    const totalRevenue = dashboard?.total_attributed_revenue ?? 0;
+    const campaigns = dashboard?.by_campaign ?? [];
+    const channels = byChannel?.channels ?? dashboard?.by_channel ?? [];
+
+    const attributionLoading = dashboardLoading;
+    const campaignLoading = dashboardLoading;
+    const refetchAttribution = refetchDashboard;
 
     const maxCampaignRevenue = campaigns.length > 0 ? Math.max(...campaigns.map(c => c.revenue)) : 0;
     const maxChannelRevenue = channels.length > 0 ? Math.max(...channels.map(c => c.revenue)) : 0;

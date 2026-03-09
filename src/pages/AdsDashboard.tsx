@@ -2,16 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { BarChart3, TrendingUp, Eye, DollarSign, Play, Pause, Plus, Loader2, RefreshCw, Target, Globe, MousePointer } from 'lucide-react';
 import { toast } from 'react-toastify';
-// import { adsService, type MetaCampaign, type CreateCampaignRequest } from '../api/ads';
-type MetaCampaign = any;
-type CreateCampaignRequest = any;
-const adsService: any = {
-    getAdsStatsV2: async () => ({}),
-    getGA4Snapshot: async () => ({}),
-    getClaritySnapshot: async () => ({}),
-    createCampaign: async () => ({ campaign_id: 'mock' }),
-    toggleCampaign: async () => ({})
-};
+import { adsService, type MetaCampaign, type CreateCampaignRequest } from '../api/ads';
 
 // ── Status Colors ────────────────────────────────────────────────────────────
 const STATUS_COLORS: Record<string, string> = {
@@ -341,7 +332,7 @@ export function AdsDashboard() {
                                 </td>
                             </tr>
                         ) : (
-                            metaCampaigns.map((campaign) => (
+                            metaCampaigns.map((campaign: any) => (
                                 <tr key={campaign.campaign_id} className="hover:bg-slate-50/50 transition-colors">
                                     <td className="py-4 px-6">
                                         <div className="flex flex-col">
