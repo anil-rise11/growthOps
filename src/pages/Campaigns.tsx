@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Mail, Play, Pause, Trash2, Loader2, Search, Filter, Plus, BarChart2, X } from 'lucide-react';
+import { Mail, Play, Pause, Trash2, Loader2, Search, Filter, BarChart2, X } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { emailService } from '../api/email';
 import type { HubspotLead, EmailTemplate } from '../api/email';

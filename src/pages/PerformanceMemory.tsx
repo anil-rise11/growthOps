@@ -24,7 +24,7 @@ function NewRecordModal({ onClose }: { onClose: () => void }) {
         action_type: '',
         outcome: 'success' as 'success' | 'failure' | 'partial',
         metrics: {} as Record<string, number>,
-        context: {} as Record<string, any>,
+        context: {} as Record<string, unknown>,
     });
     const [metricKey, setMetricKey] = useState('');
     const [metricValue, setMetricValue] = useState('');
@@ -406,7 +406,7 @@ export function PerformanceMemory() {
                                     </td>
                                 </tr>
                             ) : (
-                                records.map((record) => (
+                                records.map((record: PerformanceRecord) => (
                                     <RecordRow key={record.record_id} record={record} />
                                 ))
                             )}

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { DollarSign, TrendingUp, PieChart, BarChart3, Loader2, RefreshCw, Target, Users, ShoppingCart } from 'lucide-react';
-import { revenueService, type RevenueByCampaign, type RevenueByChannel } from '../api/revenue';
+import { DollarSign, PieChart, BarChart3, Loader2, RefreshCw, Target, Users, ShoppingCart } from 'lucide-react';
+import { revenueService, type RevenueByCampaign } from '../api/revenue';
 
 // ── Stat Card Component ──────────────────────────────────────────────────────
 function StatCard({
@@ -123,7 +123,6 @@ export function RevenueDashboard() {
     const campaigns = dashboard?.by_campaign ?? [];
     const channels = byChannel?.channels ?? dashboard?.by_channel ?? [];
 
-    const attributionLoading = dashboardLoading;
     const campaignLoading = dashboardLoading;
     const refetchAttribution = refetchDashboard;
 

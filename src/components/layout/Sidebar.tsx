@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import {
     Home, Play, CheckSquare, Users, Mail, Share2, Plug, FileSpreadsheet,
-    Target, MessageSquare, ScrollText, DollarSign, GitBranch, Database,
-    Webhook, Bot, Brain, BarChart3
+    MessageSquare, ScrollText, DollarSign, GitBranch, Database,
+    Webhook, Bot, Brain
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { workflowService } from '../../api/workflows';

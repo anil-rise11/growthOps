@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Database, Users, Briefcase, StickyNote, GitBranch, RefreshCw, Loader2, Plus, Edit2, Trash2, X, CheckCircle, AlertCircle, Clock } from 'lucide-react';
+import { Users, Briefcase, StickyNote, GitBranch, RefreshCw, Loader2, Plus, Edit2, Trash2, X, CheckCircle, AlertCircle, Clock } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { hubspotService, type HubSpotContact, type HubSpotDeal, type HubSpotNote, type HubSpotPipeline } from '../api/hubspot';
+import { hubspotService, type HubSpotContact, type HubSpotDeal } from '../api/hubspot';
 
 type TabType = 'contacts' | 'deals' | 'notes' | 'pipelines';
 

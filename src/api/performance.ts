@@ -5,7 +5,7 @@ export interface PerformanceRecord {
     action_type: string;
     outcome: 'success' | 'failure' | 'partial';
     metrics: Record<string, number>;
-    context: Record<string, any>;
+    context: Record<string, unknown>;
     created_at: string;
 }
 
@@ -18,7 +18,7 @@ export interface CreatePerformanceRecordRequest {
     action_type: string;
     outcome: 'success' | 'failure' | 'partial';
     metrics?: Record<string, number>;
-    context?: Record<string, any>;
+    context?: Record<string, unknown>;
 }
 
 export interface PerformanceSummary {
@@ -39,6 +39,28 @@ export const performanceService = {
         } catch (error) {
             console.error('Failed to fetch best performance patterns', error);
             return { patterns: [] };
+        }
+    },
+
+    // GET /v2/sales-marketing-ops/performance-memory/recent
+    getRecords: async (limit: number = 100): Promise<PerformanceMemoryResponse> => {
+        try {
+            const { data } = await v2ApiClient.get(`/performance-memory/recent?limit=${limit}`);
+            return data;
+        } catch (error) {
+            console.error('Failed to fetch performance records', error);
+            return { records: [], total: 0 };
+        }
+    },
+
+    // POST /v2/sales-marketing-ops/performance-memory/record
+    recordOutcome: async (record: CreatePerformanceRecordRequest): Promise<any> => {
+        try {
+            const { data } = await v2ApiClient.post('/performance-memory/record', record);
+            return data;
+        } catch (error) {
+            console.error('Failed to create performance record', error);
+            throw error;
         }
     },
 

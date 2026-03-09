@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { BarChart3, TrendingUp, Eye, DollarSign, Play, Pause, Plus, Loader2, RefreshCw, Target, Globe, MousePointer } from 'lucide-react';
+import { BarChart3, TrendingUp, Eye, Play, Pause, Plus, Loader2, Target, Globe, MousePointer } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { adsService, type MetaCampaign, type CreateCampaignRequest } from '../api/ads';
 

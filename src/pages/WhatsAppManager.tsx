@@ -261,7 +261,6 @@ function CampaignRow({ campaign }: { campaign: WhatsAppCampaign }) {
 
 // ── Main Component ───────────────────────────────────────────────────────────
 export function WhatsAppManager() {
-    const queryClient = useQueryClient();
     const [showTestModal, setShowTestModal] = useState(false);
     const [showSendModal, setShowSendModal] = useState(false);
 

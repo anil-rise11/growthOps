@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Mail, Plus, Play, Pause, Trash2, Loader2, RefreshCw, Edit3, Users, Clock, CheckCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Mail, Plus, Play, Pause, Trash2, Loader2, RefreshCw, Users, Clock, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { sequencesService, type EmailSequence, type SequenceStep, type Enrollment } from '../api/sequences';
 
