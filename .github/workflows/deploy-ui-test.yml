@@ -36,11 +36,10 @@ jobs:
         run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
 
       - name: Build Docker Image
-        # Build from agent-ui/ subdirectory since Dockerfile lives there
         run: |
           docker build \
             -t $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest \
-            ./agent-ui
+            .
 
       - name: Push Image to Artifact Registry
         run: |
