@@ -1,4 +1,4 @@
-import { v1ApiClient } from './client';
+import { apiClient } from './client';
 
 export interface AuditLogEvent {
     event_id: string;
@@ -27,7 +27,7 @@ export const auditService = {
     // ── Read ──────────────────────────────────────────────────────
     getAuditLog: async (params?: AuditLogParams): Promise<AuditLogResponse> => {
         try {
-            const { data } = await v1ApiClient.get('/audit-log', { params });
+            const { data } = await apiClient.get('/audit-log', { params });
             return data;
         } catch (error) {
             console.error('Failed to fetch audit log', error);

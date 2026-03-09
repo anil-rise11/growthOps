@@ -1,4 +1,4 @@
-import { v1ApiClient } from './client';
+import { v2ApiClient } from './client';
 
 export interface PerformanceRecord {
     record_id: string;
@@ -31,19 +31,43 @@ export interface PerformanceSummary {
 
 export const performanceService = {
     // ── Read ──────────────────────────────────────────────────────
-    getRecords: async (limit = 100): Promise<PerformanceMemoryResponse> => {
+    // GET /v2/sales-marketing-ops/performance-memory/best-patterns
+    getBestPatterns: async (): Promise<any> => {
         try {
-            const { data } = await v1ApiClient.get('/performance-memory', { params: { limit } });
+            const { data } = await v2ApiClient.get('/performance-memory/best-patterns');
             return data;
         } catch (error) {
-            console.error('Failed to fetch performance records', error);
-            return { records: [], total: 0 };
+            console.error('Failed to fetch best performance patterns', error);
+            return { patterns: [] };
         }
     },
 
+    // GET /v2/sales-marketing-ops/performance-memory/failed-patterns
+    getFailedPatterns: async (): Promise<any> => {
+        try {
+            const { data } = await v2ApiClient.get('/performance-memory/failed-patterns');
+            return data;
+        } catch (error) {
+            console.error('Failed to fetch failed performance patterns', error);
+            return { patterns: [] };
+        }
+    },
+
+    // GET /v2/sales-marketing-ops/performance-memory/action-rates
+    getActionRates: async (): Promise<any> => {
+        try {
+            const { data } = await v2ApiClient.get('/performance-memory/action-rates');
+            return data;
+        } catch (error) {
+            console.error('Failed to fetch action rates', error);
+            return { rates: {} };
+        }
+    },
+
+    // GET /v2/sales-marketing-ops/performance-memory/summary
     getSummary: async (): Promise<PerformanceSummary> => {
         try {
-            const { data } = await v1ApiClient.get('/performance-memory/summary');
+            const { data } = await v2ApiClient.get('/performance-memory/summary');
             return data;
         } catch (error) {
             console.error('Failed to fetch performance summary', error);
@@ -55,11 +79,5 @@ export const performanceService = {
                 learning_insights: [],
             };
         }
-    },
-
-    // ── Create ────────────────────────────────────────────────────
-    recordOutcome: async (body: CreatePerformanceRecordRequest): Promise<PerformanceRecord> => {
-        const { data } = await v1ApiClient.post('/performance-memory', body);
-        return data;
     },
 };

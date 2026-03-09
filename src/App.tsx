@@ -12,7 +12,7 @@ import { Campaigns } from './pages/Campaigns';
 import { SocialCampaigns } from './pages/SocialCampaigns';
 import { Integrations } from './pages/Integrations';
 import { CsvManager } from './pages/CsvManager';
-import { AdsDashboard } from './pages/AdsDashboard';
+// import { AdsDashboard } from './pages/AdsDashboard';
 import { WhatsAppManager } from './pages/WhatsAppManager';
 import { AuditLog } from './pages/AuditLog';
 import { RevenueDashboard } from './pages/RevenueDashboard';
@@ -46,7 +46,7 @@ function App() {
             <Route path="campaigns/social" element={<SocialCampaigns />} />
             <Route path="integrations" element={<Integrations />} />
             <Route path="csv" element={<CsvManager />} />
-            <Route path="ads" element={<AdsDashboard />} />
+            {/* <Route path="ads" element={<AdsDashboard />} /> */}
             <Route path="whatsapp" element={<WhatsAppManager />} />
             <Route path="audit" element={<AuditLog />} />
             <Route path="revenue" element={<RevenueDashboard />} />

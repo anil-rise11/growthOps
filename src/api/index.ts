@@ -1,13 +1,12 @@
-export { apiClient, v1ApiClient } from './client';
+export { apiClient, v1ApiClient, v2ApiClient } from './client';
 export { emailService } from './email';
-export { leadsService } from './leads';
+export { leadsService, unifiedLeadsService } from './leads';
 export { workflowService } from './workflows';
 export { actionsService, governanceService } from './governance';
 export { integrationsService } from './integrations';
 export { csvService } from './csv';
 export { socialService } from './social';
-// New exports
-export { adsService } from './ads';
+export { metaAdsService } from './ads';
 export { whatsappService } from './whatsapp';
 export { auditService } from './audit';
 export { revenueService } from './revenue';

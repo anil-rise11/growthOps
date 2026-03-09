@@ -170,4 +170,10 @@ export const sequencesService = {
         const { data } = await apiClient.delete(`/api/sequences/${sequenceId}`);
         return data;
     },
+
+    // POST /sales-marketing-ops/api/sequences/process-due
+    processDue: async (): Promise<{ success: boolean; processed_count: number }> => {
+        const { data } = await apiClient.post('/api/sequences/process-due');
+        return data;
+    },
 };

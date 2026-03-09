@@ -25,7 +25,7 @@ const navSections = [
             { name: 'Email Campaigns', icon: Mail, path: '/campaigns/email' },
             { name: 'Email Sequences', icon: GitBranch, path: '/sequences' },
             { name: 'Social Media', icon: Share2, path: '/campaigns/social' },
-            { name: 'Ads Dashboard', icon: Target, path: '/ads' },
+            //            { name: 'Ads Dashboard', icon: Target, path: '/ads' },
             { name: 'WhatsApp', icon: MessageSquare, path: '/whatsapp' },
         ],
     },

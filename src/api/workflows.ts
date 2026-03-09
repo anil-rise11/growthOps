@@ -70,5 +70,11 @@ export const workflowService = {
         const { data } = await apiClient.get(`/api/v2/workflow-graph/${runId}/node/${nodeId}`);
         return data;
     },
+
+    // GET /sales-marketing-ops/menu — navigation menu with integration statuses
+    getMenu: async (): Promise<{ menu: Array<{ id: string; label: string; section: string; status: string; page: string }> }> => {
+        const { data } = await apiClient.get('/menu');
+        return data;
+    },
 };
 

@@ -7,20 +7,38 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
-      // apiClient uses /proxy-core in dev — strip the prefix, forward to root of backend
+      // apiClient → /proxy-core → strips prefix, forwards to backend root (/sales-marketing-ops/...)
       '/proxy-core': {
-        target: 'https://api-test.zetaleap.ai',
+        target: 'https://growthops.rise11.com',
         changeOrigin: true,
         secure: true,
         rewrite: (path) => path.replace(/^\/proxy-core/, ''),
       },
-      // v1ApiClient uses /api in dev — forward as-is
-      '/api': {
-        target: 'https://api-test.zetaleap.ai',
+      // v1ApiClient → /api/v1/sales-marketing-ops/...
+      '/api/v1': {
+        target: 'https://growthops.rise11.com',
+        changeOrigin: true,
+        secure: true,
+      },
+      // metaAdsService (Section 13) → /api/sales-marketing-ops/meta/manual/...
+      // Must be listed BEFORE /api/v1 since Vite matches in order
+      '/api/sales-marketing-ops': {
+        target: 'https://growthops.rise11.com',
+        changeOrigin: true,
+        secure: true,
+      },
+      // v2ApiClient (performance, revenue, autonomous) → /v2/sales-marketing-ops/...
+      '/v2': {
+        target: 'https://growthops.rise11.com',
+        changeOrigin: true,
+        secure: true,
+      },
+      // webhooksService → /webhooks/...
+      '/webhooks': {
+        target: 'https://growthops.rise11.com',
         changeOrigin: true,
         secure: true,
       },
     },
   },
 })
-

@@ -1,25 +1,4 @@
-import axios from 'axios';
-
-// Autonomous Config API uses /v2/sales-marketing-ops prefix
-const isDev = import.meta.env.DEV;
-const remoteBaseURL = import.meta.env.VITE_API_BASE_URL || 'https://api-test.zetaleap.ai';
-const v2Base = isDev ? '' : remoteBaseURL;
-
-const v2ApiClient = axios.create({
-    baseURL: `${v2Base}/v2/sales-marketing-ops/autonomous`,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
-const interceptRequest = (config: any) => config;
-const interceptResponseError = (error: any) => {
-    console.error('API Error:', error.response?.data?.detail || error.response?.data?.message || error.message);
-    return Promise.reject(error);
-};
-
-v2ApiClient.interceptors.request.use(interceptRequest, (err) => Promise.reject(err));
-v2ApiClient.interceptors.response.use((r) => r, interceptResponseError);
+import { v2ApiClient } from './client';
 
 export interface AutonomousConfig {
     enabled: boolean;
@@ -71,10 +50,10 @@ export interface RunNowResponse {
 }
 
 export const autonomousService = {
-    // ── Read ──────────────────────────────────────────────────────
+    // ── GET /v2/sales-marketing-ops/autonomous/config ────────────────────
     getConfig: async (): Promise<AutonomousConfig> => {
         try {
-            const { data } = await v2ApiClient.get('/config');
+            const { data } = await v2ApiClient.get('/autonomous/config');
             return data;
         } catch (error) {
             console.error('Failed to fetch autonomous config', error);
@@ -95,9 +74,10 @@ export const autonomousService = {
         }
     },
 
+    // ── GET /v2/sales-marketing-ops/autonomous/history ───────────────────
     getHistory: async (): Promise<AutonomousHistoryResponse> => {
         try {
-            const { data } = await v2ApiClient.get('/history');
+            const { data } = await v2ApiClient.get('/autonomous/history');
             return data;
         } catch (error) {
             console.error('Failed to fetch autonomous history', error);
@@ -105,19 +85,21 @@ export const autonomousService = {
         }
     },
 
-    // ── Update ────────────────────────────────────────────────────
+    // ── PUT /v2/sales-marketing-ops/autonomous/config ────────────────────
     updateConfig: async (body: Partial<AutonomousConfig>): Promise<AutonomousConfig> => {
-        const { data } = await v2ApiClient.put('/config', body);
+        const { data } = await v2ApiClient.put('/autonomous/config', body);
         return data;
     },
 
+    // ── POST /v2/sales-marketing-ops/autonomous/toggle ──────────────────
     toggle: async (enabled: boolean): Promise<ToggleResponse> => {
-        const { data } = await v2ApiClient.post('/toggle', { enabled });
+        const { data } = await v2ApiClient.post('/autonomous/toggle', { enabled });
         return data;
     },
 
+    // ── POST /v2/sales-marketing-ops/autonomous/run-now ─────────────────
     runNow: async (): Promise<RunNowResponse> => {
-        const { data } = await v2ApiClient.post('/run-now');
+        const { data } = await v2ApiClient.post('/autonomous/run-now');
         return data;
     },
 };

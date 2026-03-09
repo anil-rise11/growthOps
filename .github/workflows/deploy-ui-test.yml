@@ -1,0 +1,63 @@
+name: Deploy UI to GCP VM (Test)
+
+on:
+  push:
+    branches:
+      - test
+
+env:
+  PROJECT_ID: zetaleap-project-449808
+  REGION: asia-south1
+  REPOSITORY: growthops-repo
+  IMAGE: growthops-test-ui
+  VM_NAME: agents-vm
+  ZONE: asia-south2-b
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Set Project
+        run: gcloud config set project $PROJECT_ID
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
+
+      - name: Build Docker Image
+        # Build from agent-ui/ subdirectory since Dockerfile lives there
+        run: |
+          docker build \
+            -t $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest \
+            ./agent-ui
+
+      - name: Push Image to Artifact Registry
+        run: |
+          docker push $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest
+
+      - name: Deploy to GCP VM
+        run: |
+          gcloud compute ssh $VM_NAME \
+            --zone=$ZONE \
+            --command="
+              gcloud auth configure-docker $REGION-docker.pkg.dev --quiet &&
+              docker pull $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest &&
+              docker stop growthops-test-ui || true &&
+              docker rm growthops-test-ui || true &&
+              docker run -d \
+                -p 4000:3000 \
+                --restart unless-stopped \
+                --name growthops-test-ui \
+                $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest
+            "

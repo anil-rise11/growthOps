@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Webhooks API uses a different base path - no /sales-marketing-ops prefix
 const isDev = import.meta.env.DEV;
-const remoteBaseURL = import.meta.env.VITE_API_BASE_URL || 'https://api-test.zetaleap.ai';
+const remoteBaseURL = import.meta.env.VITE_API_BASE_URL || 'https://growthops.rise11.com';
 const coreBase = isDev ? '/proxy-core' : remoteBaseURL;
 
 const webhooksClient = axios.create({

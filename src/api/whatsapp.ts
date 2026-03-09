@@ -10,19 +10,33 @@ export interface WhatsAppCampaign {
     created_at: string;
 }
 
+// POST /api/v1/sales-marketing-ops/api/whatsapp/test  — matches API doc exactly
 export interface WhatsAppTestRequest {
-    phone: string;
-    lead_name: string;
-    campaign_name: string;
-    source: string;
+    phone: string;       // e.g. "+919876543210"
+    lead_name: string;   // e.g. "Test User"
+    campaign_name: string; // e.g. "welcome_message_zetaleap"
+    source?: string;     // e.g. "new-landing-page form"
 }
 
 export interface WhatsAppTestResponse {
     success: boolean;
-    message_id: string;
-    campaign_name: string;
+    message_id?: string;
+    status?: string;
+}
+
+// POST /sales-marketing-ops/whatsapp/send — n8n agent path
+export interface WhatsAppSendRequest {
     phone: string;
     lead_name: string;
+    message: string;
+    campaign_name?: string;
+    execution_id?: string;
+}
+
+export interface WhatsAppSendResponse {
+    success: boolean;
+    message_id?: string;
+    status?: string;
 }
 
 export interface WhatsAppCampaignsResponse {
@@ -30,22 +44,8 @@ export interface WhatsAppCampaignsResponse {
     campaigns: WhatsAppCampaign[];
 }
 
-export interface WhatsAppSendRequest {
-    phone: string;
-    lead_name: string;
-    message: string;
-    campaign_name: string;
-    execution_id?: string;
-}
-
-export interface WhatsAppSendResponse {
-    success: boolean;
-    message_id: string;
-    status: string;
-}
-
 export const whatsappService = {
-    // ── Read ──────────────────────────────────────────────────────
+    // GET /api/v1/sales-marketing-ops/whatsapp/campaigns
     getCampaigns: async (): Promise<WhatsAppCampaignsResponse> => {
         try {
             const { data } = await v1ApiClient.get('/whatsapp/campaigns');
@@ -56,12 +56,13 @@ export const whatsappService = {
         }
     },
 
-    // ── Create ────────────────────────────────────────────────────
+    // POST /api/v1/sales-marketing-ops/whatsapp/test
     test: async (body: WhatsAppTestRequest): Promise<WhatsAppTestResponse> => {
         const { data } = await v1ApiClient.post('/whatsapp/test', body);
         return data;
     },
 
+    // POST /sales-marketing-ops/whatsapp/send  (n8n agent path)
     send: async (body: WhatsAppSendRequest): Promise<WhatsAppSendResponse> => {
         const { data } = await v1ApiClient.post('/whatsapp/send', body);
         return data;

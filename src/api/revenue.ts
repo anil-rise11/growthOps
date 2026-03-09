@@ -1,4 +1,4 @@
-import { v1ApiClient } from './client';
+import { v2ApiClient } from './client';
 
 export interface RevenueByCampaign {
     campaign: string;
@@ -12,30 +12,26 @@ export interface RevenueByChannel {
     revenue: number;
 }
 
-export interface RevenueAttributionResponse {
+export interface RevenueAttributionDashboard {
     total_attributed_revenue: number;
     by_campaign: RevenueByCampaign[];
     by_channel: RevenueByChannel[];
 }
 
-export interface RevenueAttributionByCampaignResponse {
-    campaigns: RevenueByCampaign[];
-    total_revenue: number;
-}
-
-export interface RevenueAttributionByChannelResponse {
-    channels: RevenueByChannel[];
-    total_revenue: number;
+export interface RevenueFunnelStage {
+    stage: string;
+    count: number;
+    conversion_rate?: number;
 }
 
 export const revenueService = {
-    // ── Read ──────────────────────────────────────────────────────
-    getAttribution: async (): Promise<RevenueAttributionResponse> => {
+    // ── GET /v2/sales-marketing-ops/attribution/dashboard ────────────────
+    getDashboard: async (): Promise<RevenueAttributionDashboard> => {
         try {
-            const { data } = await v1ApiClient.get('/revenue-attribution');
+            const { data } = await v2ApiClient.get('/attribution/dashboard');
             return data;
         } catch (error) {
-            console.error('Failed to fetch revenue attribution', error);
+            console.error('Failed to fetch attribution dashboard', error);
             return {
                 total_attributed_revenue: 0,
                 by_campaign: [],
@@ -44,29 +40,36 @@ export const revenueService = {
         }
     },
 
-    getAttributionByCampaign: async (): Promise<RevenueAttributionByCampaignResponse> => {
+    // ── GET /v2/sales-marketing-ops/attribution/campaign/{campaign_id} ───
+    getCampaignAttribution: async (campaignId: string): Promise<any> => {
         try {
-            const { data } = await v1ApiClient.get('/revenue-attribution/by-campaign');
+            const { data } = await v2ApiClient.get(`/attribution/campaign/${campaignId}`);
             return data;
         } catch (error) {
-            console.error('Failed to fetch revenue by campaign', error);
-            return {
-                campaigns: [],
-                total_revenue: 0,
-            };
+            console.error('Failed to fetch campaign attribution', error);
+            return null;
         }
     },
 
-    getAttributionByChannel: async (): Promise<RevenueAttributionByChannelResponse> => {
+    // ── GET /v2/sales-marketing-ops/attribution/revenue-by-source ────────
+    getRevenueBySource: async (): Promise<{ channels: RevenueByChannel[]; total_revenue: number }> => {
         try {
-            const { data } = await v1ApiClient.get('/revenue-attribution/by-channel');
+            const { data } = await v2ApiClient.get('/attribution/revenue-by-source');
             return data;
         } catch (error) {
-            console.error('Failed to fetch revenue by channel', error);
-            return {
-                channels: [],
-                total_revenue: 0,
-            };
+            console.error('Failed to fetch revenue by source', error);
+            return { channels: [], total_revenue: 0 };
+        }
+    },
+
+    // ── GET /v2/sales-marketing-ops/attribution/funnel ──────────────────
+    getFunnel: async (): Promise<{ stages: RevenueFunnelStage[] }> => {
+        try {
+            const { data } = await v2ApiClient.get('/attribution/funnel');
+            return data;
+        } catch (error) {
+            console.error('Failed to fetch funnel data', error);
+            return { stages: [] };
         }
     },
 };
