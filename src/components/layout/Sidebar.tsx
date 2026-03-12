@@ -62,10 +62,10 @@ export function Sidebar() {
         <aside className="w-64 bg-white border-r border-slate-200 h-full flex flex-col p-4 fixed left-0 top-0 z-20">
             <div className="flex items-center gap-2 mb-8 px-2 mt-4 cursor-pointer">
                 <div className="w-8 h-8 rounded bg-slate-900 flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">AO</span>
+                    <span className="text-white font-bold text-sm">GO</span>
                 </div>
                 <h1 className="text-lg font-bold text-slate-900 tracking-tight">
-                    AgentaOps
+                    GrowthOps
                 </h1>
             </div>
 
